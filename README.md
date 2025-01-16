@@ -11,7 +11,7 @@
 ## Table of Contents**
 
 - [How to Run](...)
-- [How to Play(...)
+- [How to Play](...)
 - [This Game Rules](...)
 - [Licence](...)
 
