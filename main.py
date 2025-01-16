@@ -36,6 +36,12 @@ class Player:
     def update_score(self) -> None:
         self._score += 1
 
+    def __add__(self, other):
+        return self._score + other._score if isinstance(other, Player) else other
+
+    def __str__(self) -> str:
+        return f"Player score: {self._score}"
+
 
 class AI:
     def __init__(self) -> None:
@@ -56,16 +62,22 @@ class AI:
     def make_judge() -> str:
         return random.choice(["H", "L"])
 
+    def __add__(self, other):
+        return self._score + other._score if isinstance(other, AI) else other
+
+    def __str__(self) -> str:
+        return f"AI score: {self._score}"
+
 
 class High_and_Low:
     def __init__(self) -> None:
-        self.tramp = Tramp()
-        self.player = Player()
-        self.ai = AI()
+        self.__tramp = Tramp()
+        self.__player = Player()
+        self.__ai = AI()
 
     def running(self) -> None:
         print("Game Start")
-        current_card = self.tramp.card_draw()
+        current_card = self.__tramp.card_draw()
 
         done = None
         while current_card is not done:
@@ -79,36 +91,37 @@ class High_and_Low:
                 print("Please enter 'H' or 'L'\n")
                 continue
 
-            next_card = self.tramp.card_draw()
+            next_card = self.__tramp.card_draw()
             if next_card is None:
                 break
 
-            ai_guess = self.ai.make_judge()
+            ai_guess = self.__ai.make_judge()
             print(f"AI guessed: {'High' if ai_guess == 'H' else 'Low'}")
 
             if guess == "H" and next_card > current_card or \
                     guess == "L" and next_card < current_card:
                 print("Correct!\n")
-                self.player.update_score()
+                self.__player.update_score()
 
             else:
                 print("Incorrect!\n")
 
             if ai_guess == "H" and next_card > current_card or \
                     ai_guess == "L" and next_card < current_card:
-                self.ai.update_score()
+                self.__ai.update_score()
 
             print(f"Card result is: {next_card}")
-            print(f"Player score: {self.player.player_score}")
-            print(f"AI score: {self.ai.ai_score}")
+            print(self.__player.__str__())
+            print(self.__ai.__str__())
             print("-"*20)
 
             current_card = next_card
 
         print("\nGame Over\n")
+
         print(
-            f"{"-"*20}\nYou Win" if self.player.score > self.ai.score else
-            f"{"-"*20}\nYou Lose" if self.player.score < self.ai.score else
+            f"{"-"*20}\nYou Win" if self.__player.score > self.__ai.score else
+            f"{"-"*20}\nYou Lose" if self.__player.score < self.__ai.score else
             f"{"-"*20}\nDraw"
         )
 
@@ -120,4 +133,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
