@@ -1,7 +1,7 @@
 """
-    High And Low sample.run
+    High And Low.run
 
-This file contain running "High And Low" sample program.
+This file contain running "High And Low" program.
 """
 
 import random
