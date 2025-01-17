@@ -5,6 +5,8 @@ This file contain running "High And Low" program.
 """
 
 import random
+import sys
+from typing import Iterator
 
 
 class Tramp:
@@ -13,12 +15,29 @@ class Tramp:
 
     @staticmethod
     def gen_cards() -> list[int]:
-        cards = [i for i in range(1, 14)] * 2
+
+        """Generate cards"""
+
+        cards = [str(i) for i in range(1, 14)] * 2
         random.shuffle(cards)
         return cards
 
     def card_draw(self) -> int:
         return self.cards.pop() if self.cards else None
+
+    """For debugging"""
+
+    def __len__(self) -> int:
+        return len(self.cards)
+
+    def __contains__(self, card: int) -> bool:
+        return card in self.cards
+
+    def __getitem__(self, index: int) -> int:
+        return self.cards[index]
+
+    def __iter__(self) -> Iterator[int]:
+        return iter(self.cards)
 
 
 class Player:
@@ -48,6 +67,11 @@ class Player:
 
     def __repr__(self) -> str:
         return f"Player score: {self._score}"
+
+    """for debugging"""
+
+    def __call__(self) -> None:
+        return self._score
 
 
 class AI:
@@ -82,6 +106,11 @@ class AI:
     def __repr__(self) -> str:
         return f"AI score: {self._score}"
 
+    """for debugging"""
+
+    def __call__(self) -> None:
+        return self._score
+
 
 class High_and_Low:
     def __init__(self) -> None:
@@ -99,7 +128,8 @@ class High_and_Low:
             guess = input("Next card is High(H) or Low(L)? ").strip().upper()
 
             if guess == "-1":
-                break
+                print("\nprocess finished")
+                sys.exit(0)
 
             elif guess not in ["H", "L"]:
                 print("Please enter 'H' or 'L'\n")
@@ -111,6 +141,8 @@ class High_and_Low:
 
             ai_guess = self.__ai.make_judge()
             print(f"AI guessed: {'High' if ai_guess == 'H' else 'Low'}")
+
+            """High or low determination"""
 
             if guess == "H" and next_card >= current_card or \
                     guess == "L" and next_card <= current_card:
@@ -134,9 +166,10 @@ class High_and_Low:
         print("\nGame Over\n")
 
         print(
-            f"{"-"*20}\nYou Win" if self.__player.score > self.__ai.score else
-            f"{"-"*20}\nYou Lose" if self.__player.score < self.__ai.score else
-            f"{"-"*20}\nDraw"
+            "-"*20 +
+            "\nYou Win" if self.__player.score > self.__ai.score else
+            "\nYou Lose" if self.__player.score < self.__ai.score else
+            "\nDraw"
         )
 
 
