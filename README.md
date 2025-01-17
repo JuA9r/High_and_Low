@@ -8,7 +8,7 @@
 
 ---
 
-## Table of Contents**
+## Table of Contents
 
 - [How to Run](...)
 - [How to Play](...)
