@@ -1,12 +1,5 @@
-"""
-    High And Low.run
-
-This file contain running "High And Low" program.
-"""
-
 import random
-import sys
-from typing import Iterator
+from typing import Iterator, Optional
 
 
 class Tramp:
@@ -15,17 +8,16 @@ class Tramp:
 
     @staticmethod
     def gen_cards() -> list[int]:
-
-        """Generate cards"""
-
-        cards = [str(i) for i in range(1, 14)] * 2
+        """Generate a shuffled deck of cards"""
+        cards = [i for i in range(1, 14)] * 2
         random.shuffle(cards)
         return cards
 
-    def card_draw(self) -> int:
+    def card_draw(self) -> Optional[int]:
+        """Draw a card from the deck"""
         return self.cards.pop() if self.cards else None
 
-    """For debugging"""
+    """for debugging"""
 
     def __len__(self) -> int:
         return len(self.cards)
@@ -41,140 +33,93 @@ class Tramp:
 
 
 class Player:
-    def __init__(self) -> None:
+    def __init__(self, name: str = "Player") -> None:
         self._score = 0
-
-    @property
-    def player_score(self) -> int:
-        return self._score
-
-    @player_score.setter
-    def player_score(self, value: int) -> None:
-        self._score = value
+        self.name = name
 
     def update_score(self) -> None:
         self._score += 1
 
-    def __add__(self, other):
-        return self._score + other._score \
-            if isinstance(other, Player) else other
-
-    def __radd__(self, other):
-        return self.__add__(other)
-
-    def __iadd__(self, other):
-        return self.__add__(other)
+    def __call__(self) -> int:
+        return self._score
 
     def __repr__(self) -> str:
-        return f"Player score: {self._score}"
-
-    """for debugging"""
-
-    def __call__(self) -> None:
-        return self._score
+        return f"{self.name} score: {self._score}"
 
 
-class AI:
-    def __init__(self) -> None:
-        self._score = 0
-
-    @property
-    def ai_score(self) -> None:
-        return self._score
-
-    @ai_score.setter
-    def ai_score(self, value: int) -> None:
-        self._score = value
-
-    def update_score(self) -> None:
-        self._score += 1
-
+class AI(Player):
     @staticmethod
     def make_judge() -> str:
+        """AI makes a guess: High (H) or Low (L)"""
         return random.choice(["H", "L"])
 
-    def __add__(self, other):
-        return self._score + other._score \
-            if isinstance(other, AI) else other
 
-    def __radd__(self, other):
-        return self.__add__(other)
-
-    def __iadd__(self, other):
-        return self.__add__(other)
-
-    def __repr__(self) -> str:
-        return f"AI score: {self._score}"
-
-    """for debugging"""
-
-    def __call__(self) -> None:
-        return self._score
-
-
-class High_and_Low:
+class HighAndLow:
     def __init__(self) -> None:
-        self.__tramp = Tramp()
-        self.__player = Player()
-        self.__ai = AI()
+        self.tramp = Tramp()
+        self.player = Player()
+        self.ai = AI(name="AI")
+
+    def determine_winner(self) -> str:
+        """Determine the game winner"""
+        if self.player() > self.ai():
+            return "You Win!"
+        elif self.player() < self.ai():
+            return "You Lose!"
+        return "It's a Draw!"
 
     def running(self) -> None:
-        print("Game Start")
-        current_card = self.__tramp.card_draw()
+        print("Game Start!")
+        current_card = self.tramp.card_draw()
 
-        done = None
-        while current_card is not done:
-            print(f"Current card: {current_card}")
-            guess = input("Next card is High(H) or Low(L)? ").strip().upper()
+        while current_card is not None:
+            print(f"\nCurrent card: {current_card}")
+            guess = input("Next card is High (H) or Low (L)? ('-1' to quit): ").strip().upper()
 
             if guess == "-1":
-                print("\nprocess finished")
-                sys.exit(0)
-
-            elif guess not in ["H", "L"]:
-                print("Please enter 'H' or 'L'\n")
-                continue
-
-            next_card = self.__tramp.card_draw()
-            if next_card is None:
+                print("\nGame aborted.")
                 break
 
-            ai_guess = self.__ai.make_judge()
+            if guess not in ["H", "L"]:
+                print("Invalid input. Please enter 'H' or 'L'.")
+                continue
+
+            next_card = self.tramp.card_draw()
+            if next_card is None:
+                print("No more cards left!")
+                break
+
+            ai_guess = self.ai.make_judge()
             print(f"AI guessed: {'High' if ai_guess == 'H' else 'Low'}")
 
-            """High or low determination"""
-
-            if guess == "H" and next_card >= current_card or \
-                    guess == "L" and next_card <= current_card:
-                print("Correct!\n")
-                self.__player.update_score()
-
+            # Determine results for both player and AI
+            if (guess == "H" and next_card > current_card) or \
+               (guess == "L" and next_card < current_card):
+                print("\nYou guessed correctly!")
+                self.player.update_score()
             else:
-                print("Incorrect!\n")
+                print("\nYou guessed wrong!")
 
-            if ai_guess == "H" and next_card >= current_card or \
-                    ai_guess == "L" and next_card <= current_card:
-                self.__ai.update_score()
+            if (ai_guess == "H" and next_card > current_card) or \
+               (ai_guess == "L" and next_card < current_card):
+                self.ai.update_score()
 
-            print(f"Card result is: {next_card}")
-            print(self.__player)
-            print(self.__ai)
-            print("-"*20)
+            print(f"\n{"-"*20}\nNext card was: {next_card}")
+            print(self.player)
+            print(self.ai)
+            print("-" * 20)
 
             current_card = next_card
 
-        print("\nGame Over\n")
+        print("\nGame Over!")
+        print(self.determine_winner())
 
-        print(
-            "-"*20 +
-            "\nYou Win" if self.__player.score > self.__ai.score else
-            "\nYou Lose" if self.__player.score < self.__ai.score else
-            "\nDraw"
-        )
+    def __del__(self):
+        print("Game resources cleaned up.")
 
 
 def main():
-    game = High_and_Low()
+    game = HighAndLow()
     game.running()
 
 
