@@ -37,9 +37,16 @@ class Player:
         self._score += 1
 
     def __add__(self, other):
-        return self._score + other._score if isinstance(other, Player) else other
+        return self._score + other._score \
+            if isinstance(other, Player) else other
 
-    def __str__(self) -> str:
+    def __radd__(self, other):
+        return self.__add__(other)
+
+    def __iadd__(self, other):
+        return self.__add__(other)
+
+    def __repr__(self) -> str:
         return f"Player score: {self._score}"
 
 
@@ -63,9 +70,16 @@ class AI:
         return random.choice(["H", "L"])
 
     def __add__(self, other):
-        return self._score + other._score if isinstance(other, AI) else other
+        return self._score + other._score \
+            if isinstance(other, AI) else other
 
-    def __str__(self) -> str:
+    def __radd__(self, other):
+        return self.__add__(other)
+
+    def __iadd__(self, other):
+        return self.__add__(other)
+
+    def __repr__(self) -> str:
         return f"AI score: {self._score}"
 
 
@@ -98,21 +112,21 @@ class High_and_Low:
             ai_guess = self.__ai.make_judge()
             print(f"AI guessed: {'High' if ai_guess == 'H' else 'Low'}")
 
-            if guess == "H" and next_card > current_card or \
-                    guess == "L" and next_card < current_card:
+            if guess == "H" and next_card >= current_card or \
+                    guess == "L" and next_card <= current_card:
                 print("Correct!\n")
                 self.__player.update_score()
 
             else:
                 print("Incorrect!\n")
 
-            if ai_guess == "H" and next_card > current_card or \
-                    ai_guess == "L" and next_card < current_card:
+            if ai_guess == "H" and next_card >= current_card or \
+                    ai_guess == "L" and next_card <= current_card:
                 self.__ai.update_score()
 
             print(f"Card result is: {next_card}")
-            print(self.__player.__str__())
-            print(self.__ai.__str__())
+            print(self.__player)
+            print(self.__ai)
             print("-"*20)
 
             current_card = next_card
