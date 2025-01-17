@@ -19,9 +19,9 @@
 1. Ensure you have Python installed on your system.
 2. Library usage is only for random module
 3. Run the program:
-   ’’’bash
+   ```bash
    python main.py
-   ’’’
+   ```
 
 ## Features
 - **Operability**: Only 2 keys to use
