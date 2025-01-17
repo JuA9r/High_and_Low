@@ -56,21 +56,19 @@ class AI(Player):
 
 class HighAndLow:
     def __init__(self) -> None:
-        self.tramp = Tramp()
-        self.player = Player()
-        self.ai = AI(name="AI")
+        self.__tramp = Tramp()
+        self.__player = Player()
+        self.__ai = AI(name="AI")
 
     def determine_winner(self) -> str:
         """Determine the game winner"""
-        if self.player() > self.ai():
-            return "You Win!"
-        elif self.player() < self.ai():
-            return "You Lose!"
-        return "It's a Draw!"
+        return "You Win!" if self.__player() > self.__ai() else \
+            "You Lose!" if self.__player() < self.__ai() else \
+            "It's a Draw!"
 
     def running(self) -> None:
         print("Game Start!")
-        current_card = self.tramp.card_draw()
+        current_card = self.__tramp.card_draw()
 
         while current_card is not None:
             print(f"\nCurrent card: {current_card}")
@@ -84,38 +82,35 @@ class HighAndLow:
                 print("Invalid input. Please enter 'H' or 'L'.")
                 continue
 
-            next_card = self.tramp.card_draw()
+            next_card = self.__tramp.card_draw()
             if next_card is None:
                 print("No more cards left!")
                 break
 
-            ai_guess = self.ai.make_judge()
+            ai_guess = self.__ai.make_judge()
             print(f"AI guessed: {'High' if ai_guess == 'H' else 'Low'}")
 
             # Determine results for both player and AI
             if (guess == "H" and next_card > current_card) or \
                (guess == "L" and next_card < current_card):
                 print("\nYou guessed correctly!")
-                self.player.update_score()
+                self.__player.update_score()
             else:
                 print("\nYou guessed wrong!")
 
             if (ai_guess == "H" and next_card > current_card) or \
                (ai_guess == "L" and next_card < current_card):
-                self.ai.update_score()
+                self.__ai.update_score()
 
             print(f"\n{"-"*20}\nNext card was: {next_card}")
-            print(self.player)
-            print(self.ai)
+            print(self.__player)
+            print(self.__ai)
             print("-" * 20)
 
             current_card = next_card
 
         print("\nGame Over!")
         print(self.determine_winner())
-
-    def __del__(self):
-        print("Game resources cleaned up.")
 
 
 def main():
