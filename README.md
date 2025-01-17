@@ -10,18 +10,18 @@
 
 ## Table of Contents
 
-- [How to Run](...)
-- [How to Play](...)
-- [This Game Rules](...)
-- [Licence](...)
+- [How to Run](#how-to-run)
+- [How to Play](#how-to-play)
+- [This Game Rules](#this-game-rules)
+- [Licence](#licence)
 
 ## How to Run
 1. Ensure you have Python installed on your system.
 2. Library usage is only for random module
 3. Run the program:
-   '''bash
+   ’’’bash
    python main.py
-   '''
+   ’’’
 
 ## Features
 - **Operability**: Only 2 keys to use
