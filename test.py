@@ -14,7 +14,9 @@ print(Player())
 ai.update_score()
 print(AI())
 
-print(tramp[0]+"\n")
+print(f"{tramp[0]}\n")
 
-for card in tramp:
-    print(card)
+deck = Tramp()
+print(deck)
+print(len(deck))
+print(reversed(deck))

@@ -1,3 +1,13 @@
+"""
+    High_and_Low.run
+
+This file contains running High_and_Low program.
+"""
+
+
+"""import module"""
+
+
 import random
 from typing import Iterator, Optional
 
@@ -28,8 +38,20 @@ class Tramp:
     def __getitem__(self, index: int) -> int:
         return self.cards[index]
 
+    def __setitem__(self, key, value):
+        self.cards[index] = value
+
+    def __delitem__(self, key):
+        del self.cards[key]
+
     def __iter__(self) -> Iterator[int]:
         return iter(self.cards)
+
+    def __reversed__(self) -> Iterator[int]:
+        return reversed(self.cards)
+
+    def __str__(self):
+        return f"Deck of {', '.join(map(str, self.cards))}"
 
 
 class Player:
