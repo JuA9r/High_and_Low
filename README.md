@@ -24,7 +24,7 @@
    ```
 
 ## Features
-- **Operability**: Only 2 keys to use and Runs on terminal
+- **Operability**: Only 2 keys to use and runs on terminal
 
 ### Parameters
 - **Tramp.gen_cards()**: Two numbers from 1 to 13 are generated.
