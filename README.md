@@ -17,18 +17,18 @@
 
 ## How to Run
 1. Ensure you have Python installed on your system.
-2. Library usage is only for random module
+2. Library usage is only for random module.
 3. Run the program:
    ```bash
    python main.py
    ```
 
 ## Features
-- **Operability**: Only 2 keys to use and runs on terminal
+- **Operability**: Only 2 keys to use and runs on terminal.
 
 ### Parameters
 - **Tramp.gen_cards()**: Two numbers from 1 to 13 are generated.
-- **_score**: Initial value 0 and add 1 point by update_score() for each correct answer
+- **_score**: Initial value 0 and add 1 point by update_score() for each correct answer.
 
 ## How to Play
 1. **Start**: Launch the game, the numbers of the matching cards will be displayed.
@@ -36,9 +36,9 @@
 3. **Finish game**: Draw all cards or enter -1.
 
 ### This game Rules
-1. Enter either H or L
-2. If the current card and the next card are the same or higher, add 1 to the score
-3. The one with the highest score wins
+1. Enter either H or L.
+2. If the current card and the next card are the same or higher, add 1 to the score.
+3. The one with the highest score wins.
 
 ## Licence
 This project is licensed under the MIT Licence. See the `LICENCE` file for details.
