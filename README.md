@@ -37,7 +37,7 @@
 
 ### This game Rules
 1. Enter either H or L
-2. If the current card and the next card are the same, add 1 to the score
+2. If the current card and the next card are the same or higher, add 1 to the score
 3. The one with the highest score wins
 
 ## Licence
