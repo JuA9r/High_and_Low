@@ -13,6 +13,7 @@
 - [How to Run](#how-to-run)
 - [How to Play](#how-to-play)
 - [This Game Rules](#this-game-rules)
+- [Pending](#pending)
 - [Licence](#licence)
 
 ## How to Run
@@ -40,6 +41,10 @@
 1. Enter either H or L
 2. If the current card and the next card are the same, add 1 to the score
 3. The one with the highest score wins
+
+### Pending
+1. Introducing machine learning
+2. Improved AI performance
 
 ## Licence
 This project is licensed under the MIT Licence. See the `LICENCE` file for details.

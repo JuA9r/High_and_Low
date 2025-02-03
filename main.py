@@ -4,60 +4,59 @@
 This file contains running High_and_Low program.
 """
 
-
 """import module"""
 
-
 import random
-from typing import Iterator, Optional
+import textwrap
+from typing import Optional, Iterator
 
 
 class Tramp:
     def __init__(self) -> None:
-        self.cards = self.gen_cards()
+        self.__cards = self.gen_cards()
 
     @staticmethod
     def gen_cards() -> list[int]:
         """Generate a shuffled deck of cards"""
-        cards = [i for i in range(1, 14)] * 2
+        cards = [i for i in range(1, 14)] * 4
         random.shuffle(cards)
         return cards
 
     def card_draw(self) -> Optional[int]:
         """Draw a card from the deck"""
-        return self.cards.pop() if self.cards else None
+        return self.__cards.pop() if self.__cards else None
 
     """for debugging"""
 
     def __len__(self) -> int:
-        return len(self.cards)
+        return len(self.__cards)
 
     def __contains__(self, card: int) -> bool:
-        return card in self.cards
+        return card in self.__cards
 
     def __getitem__(self, index: int) -> int:
-        return self.cards[index]
+        return self.__cards[index]
 
-    def __setitem__(self, key, value):
-        self.cards[index] = value
+    def __setitem__(self, key, value: any) -> None:
+        self.__cards[index] = value
 
-    def __delitem__(self, key):
-        del self.cards[key]
+    def __delitem__(self, key: int) -> None:
+        del self.__cards[key]
 
     def __iter__(self) -> Iterator[int]:
-        return iter(self.cards)
+        return iter(self.__cards)
 
     def __reversed__(self) -> Iterator[int]:
-        return reversed(self.cards)
+        return reversed(self.__cards)
 
     def __str__(self):
-        return f"Deck of {', '.join(map(str, self.cards))}"
+        return f"Deck of\n{textwrap.fill(', '.join(map(str, self.__cards)), 44)}\n"
 
 
 class Player:
-    def __init__(self, name: str = "Player") -> None:
+    def __init__(self, name: str = input("your name: ")) -> None:
         self._score = 0
-        self.name = name
+        self.__name = name
 
     def update_score(self) -> None:
         self._score += 1
@@ -66,7 +65,7 @@ class Player:
         return self._score
 
     def __repr__(self) -> str:
-        return f"{self.name} score: {self._score}"
+        return f"{self.__name} score: {self._score}"
 
 
 class AI(Player):
@@ -83,9 +82,8 @@ class HighAndLow:
         self.__ai = AI(name="AI")
 
     def determine_winner(self) -> str:
-        """Determine the game winner"""
-        return "You Win!" if self.__player() > self.__ai() else \
-            "You Lose!" if self.__player() < self.__ai() else \
+        return "You Win!" if self.__player() >= self.__ai() else \
+            "You Lose!" if self.__player() <= self.__ai() else \
             "It's a Draw!"
 
     def running(self) -> None:
@@ -113,15 +111,15 @@ class HighAndLow:
             print(f"AI guessed: {'High' if ai_guess == 'H' else 'Low'}")
 
             # Determine results for both player and AI
-            if (guess == "H" and next_card > current_card) or \
-               (guess == "L" and next_card < current_card):
+            if guess == "H" and next_card >= current_card or \
+               guess == "L" and next_card <= current_card:
                 print("\nYou guessed correctly!")
                 self.__player.update_score()
             else:
                 print("\nYou guessed wrong!")
 
-            if (ai_guess == "H" and next_card > current_card) or \
-               (ai_guess == "L" and next_card < current_card):
+            if ai_guess == "H" and next_card >= current_card or \
+               ai_guess == "L" and next_card <= current_card:
                 self.__ai.update_score()
 
             print(f"\n{"-"*20}\nNext card was: {next_card}")

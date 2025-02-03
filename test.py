@@ -5,7 +5,7 @@ tramp = Tramp()
 player = Player()
 ai = AI()
 
-print(len(tramp))
+print(tramp.__len__())
 print(11 in tramp)
 
 player.update_score()
@@ -18,5 +18,4 @@ print(f"{tramp[0]}\n")
 
 deck = Tramp()
 print(deck)
-print(len(deck))
-print(reversed(deck))
+print(deck.__reversed__())
