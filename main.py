@@ -8,6 +8,7 @@ This file contains running High_and_Low program.
 
 import random
 import textwrap
+from collections import defaultdict
 from typing import Optional, Iterator
 
 
@@ -71,7 +72,6 @@ class Player:
 class AI(Player):
     @staticmethod
     def make_judge() -> str:
-        """AI makes a guess: High (H) or Low (L)"""
         return random.choice(["H", "L"])
 
 
@@ -112,17 +112,17 @@ class HighAndLow:
 
             # Determine results for both player and AI
             if guess == "H" and next_card >= current_card or \
-               guess == "L" and next_card <= current_card:
+                    guess == "L" and next_card <= current_card:
                 print("\nYou guessed correctly!")
                 self.__player.update_score()
             else:
                 print("\nYou guessed wrong!")
 
             if ai_guess == "H" and next_card >= current_card or \
-               ai_guess == "L" and next_card <= current_card:
+                    ai_guess == "L" and next_card <= current_card:
                 self.__ai.update_score()
 
-            print(f"\n{"-"*20}\nNext card was: {next_card}")
+            print(f"\n{"-" * 20}\nNext card was: {next_card}")
             print(self.__player)
             print(self.__ai)
             print("-" * 20)
@@ -130,6 +130,7 @@ class HighAndLow:
             current_card = next_card
 
         print("\nGame Over!")
+        print(self.__player.__repr__()+"\n"+self.__ai.__repr__())
         print(self.determine_winner())
 
 
